@@ -2,14 +2,14 @@
 *.DS_Store
 
 # Raw data for BedMachineAntarctica
-topography/Antarctica/raw
+topography/Antarctica/raw/BedMachineAntarctica-v3.nc
 
 # High-res versions of BedMachineAntarctica
 topography/Antarctica/BedMachineAntarctica_v3_1km.nc
 topography/Antarctica/BedMachineAntarctica_v3_500m.nc
 
 # Raw data for BedMachineGreenland
-topography/Greenland/raw
+topography/Greenland/raw/BedMachineGreenland-v5.nc
 
 # High-res versions of BedMachineGreenland
 topography/Greenland/BedMachineGreenland_v5_150m.nc
