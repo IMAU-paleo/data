@@ -15,3 +15,11 @@ topography/Greenland/raw/BedMachineGreenland-v5.nc
 topography/Greenland/BedMachineGreenland_v5_150m.nc
 topography/Greenland/BedMachineGreenland_v5_300m.nc
 topography/Greenland/BedMachineGreenland_v5_600m.nc
+
+# Raw data for MEaSUREs Antarctica
+ice_velocity/Antarctica/raw/antarctica_ice_velocity_450m_v2.nc
+
+# High-res versions of MEaSUREs Antarctica
+ice_velocity/Antarctica/MEaSUREs_Antarctica_v2_450m.nc
+ice_velocity/Antarctica/MEaSUREs_Antarctica_v2_900m.nc
+ice_velocity/Antarctica/MEaSUREs_Antarctica_v2_1.8km.nc
