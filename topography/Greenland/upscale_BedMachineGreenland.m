@@ -2,6 +2,7 @@ clc
 clear all
 close all
 
+% Available from: https://nsidc.org/data/idbmg4/versions/5
 filename = 'raw/BedMachineGreenland-v5.nc';
 
 x = single(ncread( filename,'x'));

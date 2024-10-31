@@ -2,6 +2,7 @@ clc
 clear all
 close all
 
+% Available from: https://nsidc.org/data/nsidc-0756/versions/3
 filename = 'raw/BedMachineAntarctica-v3.nc';
 
 x = single(ncread( filename,'x'));
