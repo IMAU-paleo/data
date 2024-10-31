@@ -1,2 +1,9 @@
 # MacOS files
 *.DS_Store
+
+# Raw data for BedMachineAntarctica
+topography/Antarctica/raw
+
+# High-res versions of BedMachineAntarctica
+topography/Antarctica/BedMachineAntarctica_v3_1km.nc
+topography/Antarctica/BedMachineAntarctica_v3_500m.nc
