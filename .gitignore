@@ -7,3 +7,11 @@ topography/Antarctica/raw
 # High-res versions of BedMachineAntarctica
 topography/Antarctica/BedMachineAntarctica_v3_1km.nc
 topography/Antarctica/BedMachineAntarctica_v3_500m.nc
+
+# Raw data for BedMachineGreenland
+topography/Greenland/raw
+
+# High-res versions of BedMachineGreenland
+topography/Greenland/BedMachineGreenland_v5_150m.nc
+topography/Greenland/BedMachineGreenland_v5_300m.nc
+topography/Greenland/BedMachineGreenland_v5_600m.nc
