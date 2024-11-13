@@ -6,11 +6,11 @@ close all
 filename = 'raw/BedMachineAntarctica-v3.nc';
 
 x = single(ncread( filename,'x'));
-y = single(ncread( filename,'y'));
+y = flipud(single(ncread( filename,'y')));
 
-Hi = ncread( filename,'thickness');
-Hb = ncread( filename,'bed');
-Hs = ncread( filename,'surface');
+Hi = fliplr(ncread( filename,'thickness'));
+Hb = fliplr(ncread( filename,'bed'));
+Hs = fliplr(ncread( filename,'surface'));
 
 % Start with the 500m version
 write_to_upscaled_file( x, y, Hi, Hb, Hs, filename)
