@@ -5,14 +5,51 @@ close all
 % Available from: https://nsidc.org/data/nsidc-0484/versions/2
 filename = 'raw/antarctica_ice_velocity_450m_v2.nc';
 
-x = single(ncread( filename,'x'));
-y = single(ncread( filename,'y'));
+% Read data
+x = single(ncread( filename,'x')); dx = x(2) - x(1);
+y = single(ncread( filename,'y')); dy = abs(y(2) - y(1));
 
 u_surf = ncread( filename,'VX');
 v_surf = ncread( filename,'VY');
 
-% Start with the 500m version
-write_to_upscaled_file( x, y, u_surf, v_surf, filename)
+% Flip y dimension, as this is upside-down in the raw file
+y = flipud(y);
+u_surf = fliplr( u_surf);
+v_surf = fliplr( v_surf);
+
+% Extend to cover the the ISMIP domain
+n_extra_x_west = 0;
+while x(1) > -3040e3
+  n_extra_x_west = n_extra_x_west+1;
+  x = [x(1) - dx; x];
+end
+n_extra_x_east = 0;
+while x(end) < 3040e3
+  n_extra_x_east = n_extra_x_east+1;
+  x = [x; x(end) + dx];
+end
+n_extra_y_south = 0;
+while y(1) > -3040e3
+  n_extra_y_south = n_extra_y_south+1;
+  y = [y(1) - dy; y];
+end
+n_extra_y_north = 0;
+while y(end) < 3040e3
+  n_extra_y_north = n_extra_y_north+1;
+  y = [y; y(end) + dy];
+end
+
+u_surf = padarray( u_surf, [n_extra_x_west, n_extra_y_south], NaN, 'pre');
+u_surf = padarray( u_surf, [n_extra_x_east, n_extra_y_north], NaN, 'post');
+v_surf = padarray( v_surf, [n_extra_x_west, n_extra_y_south], NaN, 'pre');
+v_surf = padarray( v_surf, [n_extra_x_east, n_extra_y_north], NaN, 'post');
+
+% Calculate uabs_surf, substitute NaN with -10000
+uabs_surf = sqrt( u_surf.^2 + v_surf.^2);
+uabs_surf( isnan(uabs_surf)) = -10000;
+
+% Start with the 450m version
+write_to_upscaled_file( x, y, u_surf, v_surf, uabs_surf, filename)
 
 %% Then do the upscaled versions
 for n_up = 1:5
@@ -47,12 +84,16 @@ for n_up = 1:5
     v_surf     = 0.25 * v_surf(    :,1:2:end-2) + 0.5 * v_surf(    :,2:2:end-1) + 0.25 * v_surf(    :,3:2:end);
   end
 
+  % Replace NaN in uabs_surf with -10000
+  uabs_surf = sqrt( u_surf.^2 + v_surf.^2);
+  uabs_surf(isnan(uabs_surf)) = -10000;
+
   % Write to NetCDF
-  write_to_upscaled_file( x, y, u_surf, v_surf, filename);
+  write_to_upscaled_file( x, y, u_surf, v_surf, uabs_surf, filename);
 
 end
 
-function write_to_upscaled_file( x, y, u_surf, v_surf, filename)
+function write_to_upscaled_file( x, y, u_surf, v_surf, uabs_surf, filename)
 
   nx = length( x);
   ny = length( y);
@@ -134,6 +175,6 @@ function write_to_upscaled_file( x, y, u_surf, v_surf, filename)
   ncwrite( f.Filename,'y' ,y );
   ncwrite( f.Filename,'u_surf',u_surf);
   ncwrite( f.Filename,'v_surf',v_surf);
-  ncwrite( f.Filename,'uabs_surf',sqrt(u_surf.^2 + v_surf.^2));
+  ncwrite( f.Filename,'uabs_surf',uabs_surf);
   
 end
